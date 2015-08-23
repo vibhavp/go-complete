@@ -14,7 +14,7 @@
 ;;; Code:
 (require 'cl)
 
-(defcustom go-completion-gocode-command "gocode"
+(defcustom go-complete-gocode-command "gocode"
   "The command to invoke `gocode'."
   :group 'go-completion
   :type 'string)
@@ -29,7 +29,7 @@
     (if (buffer-modified-p)
 	(call-process-region (point-min)
 			     (point-max)
-			     go-completion-gocode-command
+			     go-complete-gocode-command
 			     nil
 			     temp-buffer
 			     nil
