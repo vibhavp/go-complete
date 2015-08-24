@@ -21,12 +21,7 @@
   :group 'go-completion
   :type 'string)
 
-(defun make-gocode-args ()
-  (if (buffer-modified-p)
-      (format "-f=emacs autocomplete %d" (point))
-    (format "-f=emacs --in=%s autcomplete %d" buffer-file-name (point))))
-
-(defun get-gocode-output ()
+(defun go-complete-run-gocode ()
   (let ((temp-buffer (generate-new-buffer "*gocode*")))
     (if (buffer-modified-p)
 	(call-process-region (point-min)
@@ -51,7 +46,7 @@
        (concat "c" (int-to-string (- (point) 1)))))
     temp-buffer))
 
-(defun args-commas (string)
+(defun go-complete-args-commas (string)
   (let ((index (string-match ",,func(" string))
 	(args 0))
     (unless (or (eq index nil) (string= (substring string index (+ index 1)) ")"))
@@ -62,18 +57,18 @@
 	(cl-incf index))
       (format "(%s)" (make-string args ?,)))))
 
-(defun make-completion (string)
+(defun go-complete-make-completion (string)
   (format "%s%s"
 	  (substring string 0 (string-match "," string))
-	  (if (string-match ",,func(" string) (args-commas string) "")))
+	  (if (string-match ",,func(" string) (go-complete-args-commas string) "")))
 
-(defun make-gocode-completion-list (buffer)
+(defun go-complete-make-completion-list (buffer)
   (with-current-buffer buffer
     (goto-char (point-min))
     (let ((completion-list '()))
       (while (not (eq (point) (point-max)))
 	(setq completion-list
-	      (append completion-list (list (make-completion
+	      (append completion-list (list (go-complete-make-completion
 					     (buffer-substring
 					      (line-beginning-position)
 					      (line-end-position))))))
@@ -94,7 +89,7 @@
 	     (point)
 	   (save-excursion (left-word) (point)))
 	 (point)
-	 (make-gocode-completion-list (get-gocode-output))
+	 (go-complete-make-completion-list (go-complete-run-gocode))
 	 .
 	 nil)))))
 
