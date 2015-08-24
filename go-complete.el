@@ -3,7 +3,7 @@
 
 ;; Author: Vibhav Pant <vibhavp@gmail.com>
 ;; Version: 1.0
-;; Package-Requires: ((go-mode "0"))
+;; Package-Requires: ((go-mode "0") (cl-lib "0.5"))
 ;; Keywords: go, golang, completion
 ;; URL: https://github.com/vibhavp/go-complete
 
@@ -13,8 +13,8 @@
 ;; To enable, put:
 
 ;;; Code:
-(eval-when-compile
-  (require 'cl))
+
+(require 'cl-lib)
 
 (defcustom go-complete-gocode-command "gocode"
   "The command to invoke `gocode'."
@@ -76,6 +76,7 @@
       (kill-buffer buffer)
       completion-list)))
 
+;;;###autoload
 (defun go-complete-at-point ()
   "Complete go expression at point."
   (interactive)
