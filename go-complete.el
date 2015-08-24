@@ -76,6 +76,7 @@
       (kill-buffer buffer)
       completion-list)))
 
+;;;###autoload
 (defun go-complete-at-point ()
   "Complete go expression at point."
   (interactive)
