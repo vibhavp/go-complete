@@ -1,0 +1,13 @@
+#+TITLE: go-complete
+#+STARTUP: inlineimages
+
+A [[https://github.com/nsf/gocode/][gocode]] based native completion system for Emacs, can be integrated with
+frameworks like ido, company, autocomplete.
+
+* Usage:
+Add this to your .emacs:
+
+#+BEGIN_SRC emacs-lisp
+(require 'go-complete)
+(add-hook 'completion-at-point-functions 'go-complete-at-point)
+#+END_SRC
