@@ -8,6 +8,7 @@ frameworks like ido, company, autocomplete.
 
 * Usage:
 Add this to your .emacs:
+Install [[https://github.com/nsf/gocode/][gocode]] if you already heavn't.
 
 #+BEGIN_SRC emacs-lisp
 (require 'go-complete)
