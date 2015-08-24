@@ -10,9 +10,11 @@
 ;;; Commentary:
 ;; This package provides native code completion for the Go Programming
 ;; Language.
+;; To enable, put:
 
 ;;; Code:
-(require 'cl)
+(eval-when-compile
+  (require 'cl))
 
 (defcustom go-complete-gocode-command "gocode"
   "The command to invoke `gocode'."
@@ -96,7 +98,5 @@
 	 .
 	 nil)))))
 
-(add-hook 'completion-at-point-functions 'go-complete-at-point)
-
 (provide 'go-complete)
-;;; gocomplete.el ends here
+;;; go-complete.el ends here
