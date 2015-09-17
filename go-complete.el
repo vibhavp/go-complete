@@ -39,6 +39,7 @@
   :type 'string)
 
 (defun go-complete-run-gocode ()
+  "Run gocode on the current point, return a buffer containing the output."
   (let ((temp-buffer (generate-new-buffer "*gocode*")))
     (if (buffer-modified-p)
 	(call-process-region (point-min)
@@ -64,6 +65,9 @@
     temp-buffer))
 
 (defun go-complete-args-commas (string)
+  "STRING is a function completion returned by gocode.
+Return a string in the format foo(,,), where foo is the function
+name, and the number of commas = number of arguments taken by the function"
   (let ((index (string-match ",,func(" string))
 	(args 0))
     (unless (or (eq index nil) (string= (substring string index (+ index 1)) ")"))
@@ -75,11 +79,16 @@
       (format "(%s)" (make-string args ?,)))))
 
 (defun go-complete-make-completion (string)
+  "Take a completion STRING from gocode, return a completion string.
+If STRING is a function completion, return foo(,,), where foo is the function
+name, and the number of commas = number of arguments taken by the function"
   (format "%s%s"
 	  (substring string 0 (string-match "," string))
 	  (if (string-match ",,func(" string) (go-complete-args-commas string) "")))
 
 (defun go-complete-make-completion-list (buffer)
+  "Take a BUFFER containing gocode output, return a list of completions.
+The list returned is compatible with `completion-at-point-functions'"
   (with-current-buffer buffer
     (goto-char (point-min))
     (let ((completion-list '()))
