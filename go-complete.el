@@ -64,16 +64,20 @@
        (concat "c" (int-to-string (- (point) 1)))))
     temp-buffer))
 
+(defun go-complete-char-at (string index)
+  "Return the character in STRING at index INDEX."
+  (substring string index (+ index 1)))
+
 (defun go-complete-args-commas (string)
   "STRING is a function completion returned by gocode.
 Return a string in the format foo(,,), where foo is the function
 name, and the number of commas = number of arguments taken by the function"
   (let ((index (string-match ",,func(" string))
 	(args 0))
-    (unless (or (eq index nil) (string= (substring string index (+ index 1)) ")"))
+    (unless (or (eq index nil) (string= (go-complete-char-at string (+ index 1)) ")"))
       (cl-incf index 2)
-      (while (not (eq index (- (length string) 1)))
-	(when (string= (substring string index (+ index 1)) ",")
+      (while (and (not (eq index (- (length string) 1))) (not (string= (go-complete-char-at string index) ")")))
+	(when (string= (go-complete-char-at string index) ",")
 	  (cl-incf args))
 	(cl-incf index))
       (format "(%s)" (make-string args ?,)))))
