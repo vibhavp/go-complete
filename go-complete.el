@@ -56,7 +56,7 @@
       (call-process-region
        (point-min)
        (point-min)
-       "gocode"
+       go-complete-gocode-command
        nil
        temp-buffer
        nil
