@@ -52,11 +52,12 @@
 			     nil
 			     "-f=emacs"
 			     "autocomplete"
+			     buffer-file-name
 			     (concat "c" (int-to-string (-  (point) 1))))
       (call-process-region
        (point-min)
        (point-min)
-       "gocode"
+       go-complete-gocode-command
        nil
        temp-buffer
        nil
